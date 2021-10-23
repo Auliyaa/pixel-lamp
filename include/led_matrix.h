@@ -27,6 +27,7 @@ public:
     led_col_t& operator[](size_t);
 
     void reset();
+    void set_brightness(uint8_t) const;
     void show() const;
 
 private:

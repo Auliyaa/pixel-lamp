@@ -5,51 +5,35 @@
 #include <led_matrix.h>
 #include <board.h>
 
-// rotary_t rot_brightness{ROT_BRIGHTNESS_DT, ROT_BRIGHTNESS_CLK, ROT_BRIGHTNESS_SW};
-
+// declare board components
+rotary_t rot_top;
+rotary_t rot_bottom;
 led_matrix_t leds;
-
-int hue[LED_ARRAY_WIDTH];
 
 void setup()
 {
   Serial.begin(9600);
+  rot_top.setup(ROT_TOP_DT,ROT_TOP_CLK,ROT_TOP_SW);
+  rot_bottom.setup(ROT_BOTTOM_DT,ROT_BOTTOM_CLK,ROT_BOTTOM_SW);
   leds.setup();
-
-  // rot_brightness.setup();
-  memset(hue,0,LED_ARRAY_WIDTH);
-
-  float h=0;
-  float hs=255/LED_ARRAY_WIDTH;
-  for (size_t xx=0; xx<LED_ARRAY_WIDTH; ++xx)
-  {
-    hue[xx] = h;
-    h+=hs;
-  }
 }
 
-
+size_t xx=0;
 void loop()
 {
-  leds.reset();
-
-  for (size_t xx=0; xx<LED_ARRAY_WIDTH; ++xx)
+  // handle bottom rotary
+  rot_bottom.read();
+  if (rot_bottom.pos_changed() && rot_bottom.pos() <= 255 && rot_bottom.pos() >=0)
   {
-    int sat=175;
-    for (size_t yy=0; yy<LED_ARRAY_HEIGHT; ++yy)
-    {
-      CHSV hsv(hue[xx],sat,255);
-      CRGB rgb;
-      hsv2rgb_rainbow(hsv,rgb);
-
-      leds[xx][yy]=rgb;
-
-      sat += 10;
-    }
-
-    hue[xx]=(hue[xx]+10)%255;
+    Serial.print("setting brightness to ");
+    Serial.println(rot_bottom.pos());
+    leds.set_brightness(rot_bottom.pos());
   }
 
+  leds.reset();
+  leds[xx][0] = CRGB(255,0,0);
+  xx=(xx+1)%LED_ARRAY_WIDTH;
   leds.show();
-  delay(100);
+
+  delay(20);
 }

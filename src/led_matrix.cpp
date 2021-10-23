@@ -39,10 +39,10 @@ void led_matrix_t::setup()
       else _cols[xx] = new led_col_r_t(_leds+xx*LED_ARRAY_HEIGHT);
   }
 
-  FastLED.addLeds<WS2812B, LED_PIN_0, RGB>(_leds, LED_PER_PIN);
-  FastLED.addLeds<WS2812B, LED_PIN_1, RGB>(_leds+LED_PER_PIN, LED_PER_PIN);
-  FastLED.addLeds<WS2812B, LED_PIN_2, RGB>(_leds+LED_PER_PIN*2, LED_PER_PIN);
-  FastLED.addLeds<WS2812B, LED_PIN_3, RGB>(_leds+LED_PER_PIN*3, LED_PER_PIN);
+  FastLED.addLeds<WS2812B, LED_PIN_0, GRB>(_leds, LED_PER_PIN);
+  FastLED.addLeds<WS2812B, LED_PIN_1, GRB>(_leds+LED_PER_PIN, LED_PER_PIN);
+  FastLED.addLeds<WS2812B, LED_PIN_2, GRB>(_leds+LED_PER_PIN*2, LED_PER_PIN);
+  FastLED.addLeds<WS2812B, LED_PIN_3, GRB>(_leds+LED_PER_PIN*3, LED_PER_PIN);
 }
 
 led_col_t& led_matrix_t::operator[](size_t xx)
@@ -56,6 +56,11 @@ led_col_t& led_matrix_t::operator[](size_t xx)
 void led_matrix_t::reset()
 {
     memset(_leds,0,sizeof(CRGB)*LED_CNT);
+}
+
+void led_matrix_t::set_brightness(uint8_t v) const
+{
+  FastLED.setBrightness(v);
 }
 
 void led_matrix_t::show() const
