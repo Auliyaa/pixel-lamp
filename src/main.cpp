@@ -1,14 +1,29 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
+#include <board.h>
+
 #include <rotary.h>
 #include <led_matrix.h>
-#include <board.h>
+
+#include <animation.h>
+#include <animations/hue.h>
 
 // declare board components
 rotary_t rot_top;
 rotary_t rot_bottom;
+bool top_clicked = false;
+bool bottom_clicked = false;
 led_matrix_t leds;
+
+uint8_t brightness=255;
+
+// animations
+#define ANIMATION_CNT 1
+animation_t* animations[ANIMATION_CNT] = {
+  new animation_hue_t
+};
+size_t animations_idx=0;
 
 void setup()
 {
@@ -16,24 +31,33 @@ void setup()
   rot_top.setup(ROT_TOP_DT,ROT_TOP_CLK,ROT_TOP_SW);
   rot_bottom.setup(ROT_BOTTOM_DT,ROT_BOTTOM_CLK,ROT_BOTTOM_SW);
   leds.setup();
+
+  for (size_t ii=0; ii<ANIMATION_CNT; ++ii)
+  {
+    animations[ii]->setup(leds);
+  }
 }
 
-size_t xx=0;
 void loop()
 {
-  // handle bottom rotary
+  // handle rotaries
   rot_bottom.read();
-  if (rot_bottom.pos_changed() && rot_bottom.pos() <= 255 && rot_bottom.pos() >=0)
+  rot_top.read();
+
+  if (rot_bottom.pushed() && !bottom_clicked)
   {
-    Serial.print("setting brightness to ");
-    Serial.println(rot_bottom.pos());
-    leds.set_brightness(rot_bottom.pos());
+    // bottom button pushed
+    brightness+=50;
+    leds.set_brightness(brightness);
   }
 
-  leds.reset();
-  leds[xx][0] = CRGB(255,0,0);
-  xx=(xx+1)%LED_ARRAY_WIDTH;
-  leds.show();
+  if (rot_top.pushed() && !top_clicked)
+  {
+    animations_idx=(animations_idx+1)%ANIMATION_CNT;
+  }
 
-  delay(20);
+  bottom_clicked=rot_bottom.pushed();
+  top_clicked=rot_top.pushed();
+
+  animations[animations_idx]->loop(leds);
 }
