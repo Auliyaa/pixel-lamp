@@ -10,6 +10,7 @@
 #include <animations/hue.h>
 #include <animations/rain.h>
 #include <animations/evs.h>
+#include <animations/rainbow.h>
 
 // declare board components
 rotary_t rot_top;
@@ -21,8 +22,9 @@ led_matrix_t leds;
 uint8_t brightness=255;
 
 // animations
-#define ANIMATION_CNT 3
+#define ANIMATION_CNT 4
 animation_t* animations[ANIMATION_CNT] = {
+  new animation_rainbow_t,
   new evs_t,
   new animation_hue_t,
   new animation_rain_t,
