@@ -8,6 +8,8 @@
 
 #include <animation.h>
 #include <animations/hue.h>
+#include <animations/rain.h>
+#include <animations/evs.h>
 
 // declare board components
 rotary_t rot_top;
@@ -19,15 +21,20 @@ led_matrix_t leds;
 uint8_t brightness=255;
 
 // animations
-#define ANIMATION_CNT 1
+#define ANIMATION_CNT 3
 animation_t* animations[ANIMATION_CNT] = {
-  new animation_hue_t
+  new evs_t,
+  new animation_hue_t,
+  new animation_rain_t,
 };
 size_t animations_idx=0;
 
 void setup()
 {
   Serial.begin(9600);
+  // init rseed from an unconnected pin signal noise
+  randomSeed(analogRead(0));
+
   rot_top.setup(ROT_TOP_DT,ROT_TOP_CLK,ROT_TOP_SW);
   rot_bottom.setup(ROT_BOTTOM_DT,ROT_BOTTOM_CLK,ROT_BOTTOM_SW);
   leds.setup();

@@ -9,7 +9,7 @@ public:
     void loop(led_matrix_t&);
 
 protected:
-    virtual bool step(led_matrix_t&,unsigned long last_time);
+    virtual bool step(led_matrix_t&,unsigned long last_time)=0;
 
 private:
     unsigned long _last_ms;

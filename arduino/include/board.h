@@ -15,11 +15,7 @@
 #define LED_CNT 128
 
 // rotaries
-#define ROT_BOTTOM_DT 8
-#define ROT_BOTTOM_SW 9
-#define ROT_BOTTOM_CLK 10
-
-#define ROT_TOP_DT 10
+ #define ROT_TOP_DT 10
 #define ROT_TOP_SW 9
 #define ROT_TOP_CLK 8
 #define ROT_BOTTOM_DT 11
