@@ -3,12 +3,12 @@
 #include <animation.h>
 #include <board.h>
 
-class animation_rainbow_t: public cs_animation_t<100>
+class animation_rainbow_t: public cs_animation_t<10>
 {
 public:
     animation_rainbow_t()
     {
-        _hue_step = 255. / 3000.;
+        _hue_step = 255. / 30000.;
         _hue=0;
     }
 
@@ -26,8 +26,12 @@ protected:
             }
         }
 
-        _hue=(_hue+_hue_step);
-        if (_hue>255.) _hue-=255.;
+        // change directions
+        if (_hue + _hue_step > 255. || _hue +_hue_step < 0)
+        {
+            _hue_step *= -1;
+        }
+        _hue+=_hue_step;
     }
 
 private:
