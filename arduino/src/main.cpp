@@ -12,6 +12,7 @@
 #include <animations/evs.h>
 #include <animations/rainbow.h>
 #include <animations/pong.h>
+#include <animations/static_color.h>
 
 // declare board components
 rotary_t rot_top;
@@ -32,11 +33,16 @@ uint8_t brightness[BRIGHTNESS_CNT] = {
 size_t brightness_idx=5;
 
 // animations
-#define ANIMATION_CNT 6
+#define ANIMATION_CNT 11
 animation_t* animations[ANIMATION_CNT] = {
   new animation_rainbow_t,
   new animation_horizontal_hue_t,
   new animation_vertical_hue_t,
+  new animation_static_color_t<255, 108, 0>,   // 1500K see https://academo.org/demos/colour-temperature-relationship/
+  new animation_static_color_t<255, 137, 14> , // 2000K
+  new animation_static_color_t<255, 177, 110>, // 3000K
+  new animation_static_color_t<205, 206, 166>, // 4000K
+  new animation_static_color_t<255, 255, 255>, // 6000K
   new animation_pong_t,
   new animation_rain_t,
   new evs_t,
@@ -81,4 +87,6 @@ void loop()
   top_clicked=rot_top.pushed();
 
   animations[animations_idx]->loop(leds);
+
+  delay(5);
 }
