@@ -11,6 +11,7 @@
 #include <animations/rain.h>
 #include <animations/evs.h>
 #include <animations/rainbow.h>
+#include <animations/pong.h>
 
 // declare board components
 rotary_t rot_top;
@@ -19,11 +20,21 @@ bool top_clicked = false;
 bool bottom_clicked = false;
 led_matrix_t leds;
 
-uint8_t brightness=255;
+#define BRIGHTNESS_CNT 6
+uint8_t brightness[BRIGHTNESS_CNT] = {
+  0,
+  50,
+  100,
+  150,
+  200,
+  250
+};
+size_t brightness_idx=5;
 
 // animations
-#define ANIMATION_CNT 4
+#define ANIMATION_CNT 5
 animation_t* animations[ANIMATION_CNT] = {
+  new animation_pong_t,
   new animation_rainbow_t,
   new evs_t,
   new animation_hue_t,
@@ -56,8 +67,8 @@ void loop()
   if (rot_bottom.pushed() && !bottom_clicked)
   {
     // bottom button pushed
-    brightness+=50;
-    leds.set_brightness(brightness);
+    brightness_idx = (brightness_idx+1)%BRIGHTNESS_CNT;
+    leds.set_brightness(brightness[brightness_idx]);
   }
 
   if (rot_top.pushed() && !top_clicked)

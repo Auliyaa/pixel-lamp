@@ -67,7 +67,7 @@ protected:
         size_t sxx=0;
         for (size_t xx=0; xx<LED_ARRAY_WIDTH; ++xx)
         {
-            sxx=(xx+_shift)%LED_ARRAY_WIDTH;
+            sxx=(xx-_shift)%LED_ARRAY_WIDTH;
             for (size_t yy=0; yy<LED_ARRAY_HEIGHT; ++yy)
             {
                 size_t idx = 3*(xx*LED_ARRAY_HEIGHT+yy);
