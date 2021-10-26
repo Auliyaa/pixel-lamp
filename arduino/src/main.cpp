@@ -34,11 +34,11 @@ size_t brightness_idx=5;
 // animations
 #define ANIMATION_CNT 5
 animation_t* animations[ANIMATION_CNT] = {
-  new animation_pong_t,
   new animation_rainbow_t,
-  new evs_t,
   new animation_hue_t,
+  new animation_pong_t,
   new animation_rain_t,
+  new evs_t,
 };
 size_t animations_idx=0;
 
