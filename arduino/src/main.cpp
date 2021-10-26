@@ -32,10 +32,11 @@ uint8_t brightness[BRIGHTNESS_CNT] = {
 size_t brightness_idx=5;
 
 // animations
-#define ANIMATION_CNT 5
+#define ANIMATION_CNT 6
 animation_t* animations[ANIMATION_CNT] = {
   new animation_rainbow_t,
-  new animation_hue_t,
+  new animation_horizontal_hue_t,
+  new animation_vertical_hue_t,
   new animation_pong_t,
   new animation_rain_t,
   new evs_t,
