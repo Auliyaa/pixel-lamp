@@ -35,6 +35,7 @@ size_t brightness_idx=5;
 // animations
 #define ANIMATION_CNT 11
 animation_t* animations[ANIMATION_CNT] = {
+  new evs_t,
   new animation_rainbow_t,
   new animation_horizontal_hue_t,
   new animation_vertical_hue_t,
@@ -45,7 +46,6 @@ animation_t* animations[ANIMATION_CNT] = {
   new animation_static_color_t<255, 255, 255>, // 6000K
   new animation_pong_t,
   new animation_rain_t,
-  new evs_t,
 };
 size_t animations_idx=0;
 
